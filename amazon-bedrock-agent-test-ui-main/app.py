@@ -17,7 +17,8 @@ if os.path.exists("logging.yaml"):
         config = yaml.safe_load(file)
         logging.config.dictConfig(config)
 else:
-    log_level = logging.getLevelNamesMapping()[(os.environ.get("LOG_LEVEL", "INFO"))]
+    log_level_str = os.environ.get("LOG_LEVEL", "INFO").upper()
+    log_level = getattr(logging, log_level_str, logging.INFO)
     logging.basicConfig(level=log_level)
 
 logger = logging.getLogger(__name__)
